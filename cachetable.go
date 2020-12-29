@@ -31,12 +31,20 @@ type CacheTable struct {
 	// The logger used for this table.
 	logger *log.Logger
 
+	// 是否启用热点数据缓存 默认不启用
+	useHot bool
+
 	// Callback method triggered when trying to load a non-existing key.
 	loadData func(key interface{}, args ...interface{}) *CacheItem
 	// Callback method triggered when adding a new item to the cache.
 	addedItem []func(item *CacheItem)
 	// Callback method triggered before deleting an item from the cache.
 	aboutToDeleteItem []func(item *CacheItem)
+}
+
+// 设置开启或关闭热点数据
+func (table *CacheTable) UseHot(hot bool) {
+	table.useHot = hot
 }
 
 // Count returns how many items are currently stored in the cache.
@@ -285,7 +293,9 @@ func (table *CacheTable) Value(key interface{}, args ...interface{}) (*CacheItem
 
 	if ok {
 		// Update access counter and timestamp.
-		r.KeepAlive()
+		if table.useHot {
+			r.KeepAlive()
+		}
 		return r, nil
 	}
 
