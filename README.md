@@ -15,11 +15,11 @@ See the [install instructions](http://golang.org/doc/install.html).
 
 To install cache2go, simply run:
 
-    go get github.com/muesli/cache2go
+    go get github.com/skyfile/cache2go
 
 To compile it from source:
 
-    cd $GOPATH/src/github.com/muesli/cache2go
+    cd $GOPATH/src/github.com/skyfile/cache2go
     go get -u -v
     go build && go test -v
 
@@ -28,7 +28,7 @@ To compile it from source:
 package main
 
 import (
-	"github.com/muesli/cache2go"
+	"github.com/skyfile/cache2go"
 	"fmt"
 	"time"
 )
@@ -42,7 +42,7 @@ type myStruct struct {
 func main() {
 	// Accessing a new cache table for the first time will create it.
 	cache := cache2go.Cache("myCache")
-
+    
 	// We will put a new item in the cache. It will expire after
 	// not being accessed via Value(key) for more than 5 seconds.
 	val := myStruct{"This is a test!", []byte{}}
